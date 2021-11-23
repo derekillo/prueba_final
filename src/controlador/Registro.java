@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java. sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -168,5 +170,54 @@ public class Registro {
 
         }
         return atencion;
+    }
+    
+    public List<Atencion> buscarAtenciones(){
+        
+        List<Atencion> lista = new ArrayList<>();
+        
+        Date date;
+        try {
+            Conexion con = new Conexion();
+            Connection cnx = con.obtenerConexion();
+                        
+            String query = "SELECT idatencion,fecha,rut,nombre,apaterno,amaterno,vacuna,dosisnum,minespera,observacion FROM atencion ORDER BY fecha";
+            PreparedStatement stmt = cnx.prepareStatement(query);
+
+//          Se ejecuta consulta
+            ResultSet rs = stmt.executeQuery();
+            
+            while (rs.next()){
+                Atencion atencion = new Atencion();
+                atencion.setIdAtencion(rs.getInt("idatencion"));
+                atencion.setFecha(rs.getDate("fecha"));
+                atencion.setRut(rs.getString("rut"));
+                atencion.setNombre(rs.getString("nombre"));
+                atencion.setAPaterno(rs.getString("apaterno"));
+                atencion.setAMaterno(rs.getString("amaterno"));
+                atencion.setVacuna(rs.getString("vacuna"));
+                atencion.setDosisNum(rs.getInt("dosisnum"));
+                atencion.setMinEspera(rs.getInt("minespera"));
+                atencion.setObservacion(rs.getString("observacion"));
+                
+                lista.add(atencion);
+                
+            }
+            rs.close();
+//          Se cierra consulta            
+            stmt.close(); 
+//          Se cierra conexión            
+            cnx.close();
+            
+
+        } catch (SQLException e) {
+            System.out.println("ERROR en la base de datos: " + e.getMessage());
+
+        } catch (Exception e){
+            System.out.println("ERROR al actualizar datos de atención!!! " + e.getMessage());
+
+        }
+        return lista;
+        
     }
 }
