@@ -5,7 +5,7 @@ import bd.Conexion;
 import java.util.Date;
 import modelo.Atencion;
 import java.sql.Connection;
-import java. sql.PreparedStatement;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
