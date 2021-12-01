@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 import modelo.Atencion;
 import modelo.Persona;
+import modelo.PersonaVacuna;
 
 /**
  *
@@ -21,7 +22,7 @@ import modelo.Persona;
  */
 public class ConsultasPersona {
     
-    public boolean agregar(){
+    public boolean agregarPersona(Persona persona){
         
         try {
             Conexion con = new Conexion();
@@ -29,9 +30,9 @@ public class ConsultasPersona {
             
             String query = "INSERT INTO persona(rutPersona,Nombres,Apellidos) VALUES(?,?,?)";
             PreparedStatement stmt = cnx.prepareStatement(query);
-            stmt.setString(1, "26.275.373-5");
-            stmt.setString(2, "Nelly Berenice");
-            stmt.setString(3, "Becerra Gamietea");
+            stmt.setString(1, persona.getRutPersona());
+            stmt.setString(2, persona.getNombres());
+            stmt.setString(3, persona.getApellidos());
             
 //          Se ejecuta consulta
             stmt.executeUpdate(); 
@@ -121,34 +122,29 @@ public class ConsultasPersona {
         }
     }
     
-    public Atencion buscarAtencion(int idAtencion){
+    
+    
+    public List<PersonaVacuna> buscarInformacionVacunaPersona(int idPersona){
        
-       Atencion atencion = new Atencion();
-       Date date;
+        List<PersonaVacuna> listaPersonaVacuna = new ArrayList<>();
+       
         try {
             Conexion con = new Conexion();
             Connection cnx = con.obtenerConexion();
-            date = atencion.getFecha();
             
-            String query = "SELECT idatencion,fecha,rut,nombre,apaterno,amaterno,vacuna,dosisnum,minespera,observacion FROM atencion WHERE idatencion = ?";
+            String query = "SELECT p.Nombres, p.Apellidos, v.nombreVacuna, pv.fechaVacunacion FROM persona_vacuna pv JOIN persona p on pv.idPersona = p.idPersona JOIN vacuna v on pv.idVacuna = v.idVacuna WHERE pv.idPersona = ?";
             PreparedStatement stmt = cnx.prepareStatement(query);
-            stmt.setInt(1, idAtencion);
+            stmt.setInt(1, idPersona);
             
 //          Se ejecuta consulta
             ResultSet rs = stmt.executeQuery();
-            if (rs.next()){
-                atencion.setIdAtencion(rs.getInt("idatencion"));
-                atencion.setFecha(rs.getDate("fecha"));
-                atencion.setRut(rs.getString("rut"));
-                atencion.setNombre(rs.getString("nombre"));
-                atencion.setAPaterno(rs.getString("apaterno"));
-                atencion.setAMaterno(rs.getString("amaterno"));
-                atencion.setVacuna(rs.getString("vacuna"));
-                atencion.setDosisNum(rs.getInt("dosisnum"));
-                atencion.setMinEspera(rs.getInt("minespera"));
-                atencion.setObservacion(rs.getString("observacion"));
-                
-                
+            while (rs.next()){
+                PersonaVacuna personaVacuna = new PersonaVacuna();
+                personaVacuna.setNombres(rs.getString("p.Nombres"));
+                personaVacuna.setApellidos(rs.getString("p.Apellidos"));
+                personaVacuna.setNombreVacuna(rs.getString("v.nombreVacuna"));
+                personaVacuna.setFechaVacunacion(rs.getDate("pv.fechaVacunacion"));
+                listaPersonaVacuna.add(personaVacuna);
             }
             rs.close();
 //          Se cierra consulta            
@@ -164,13 +160,53 @@ public class ConsultasPersona {
             System.out.println("ERROR al actualizar datos de atención!!! " + e.getMessage());
 
         }
-        return atencion;
+        return listaPersonaVacuna;
     }
     
-    public void listaPersonas(){
+    public Persona buscarInformacionPersona(String rutPersona){
+       
+        Persona Persona = new Persona();
        
         try {
-            List<Persona> listaPersona = new ArrayList<Persona>();
+            Conexion con = new Conexion();
+            Connection cnx = con.obtenerConexion();
+            
+            String query = "SELECT idPersona, Nombres, Apellidos, rutPersona FROM persona WHERE rutPersona = ?";
+            PreparedStatement stmt = cnx.prepareStatement(query);
+            stmt.setString(1, rutPersona);
+            
+//          Se ejecuta consulta
+            ResultSet rs = stmt.executeQuery();
+            if(rs.next()){
+                Persona.setIdPersona(rs.getInt("idPersona"));
+                Persona.setNombres(rs.getString("Nombres"));
+                Persona.setApellidos(rs.getString("Apellidos"));
+                Persona.setRutPersona(rs.getString("rutPersona"));
+            }
+            rs.close();
+//          Se cierra consulta            
+            stmt.close(); 
+//          Se cierra conexión            
+            cnx.close();
+            
+
+        } catch (SQLException e) {
+            System.out.println("ERROR en la base de datos: " + e.getMessage());
+
+        } catch (Exception e){
+            System.out.println("ERROR al actualizar datos de atención!!! " + e.getMessage());
+
+        }
+        return Persona;
+    }
+    
+    
+    public List<Persona> listaPersonas(){
+       
+        List<Persona> listaPersona = new ArrayList<Persona>();
+        
+        try {
+            
             Conexion con = new Conexion();
             Connection cnx = con.obtenerConexion();
             
@@ -187,9 +223,6 @@ public class ConsultasPersona {
                 persona.setApellidos(rs.getString("apellidos"));
                 listaPersona.add(persona);
             }
-            for(Persona persona: listaPersona){
-                System.out.println(persona.toString());
-            }
             rs.close();
 //          Se cierra consulta            
             stmt.close(); 
@@ -204,5 +237,7 @@ public class ConsultasPersona {
             System.out.println("ERROR al actualizar datos de atención!!! " + e.getMessage());
 
         }
+        
+        return listaPersona;
     }
 }

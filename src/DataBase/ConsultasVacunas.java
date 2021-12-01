@@ -22,7 +22,7 @@ import modelo.Vacuna;
  */
 public class ConsultasVacunas {
     
-    public boolean agregarVacuna(){
+    public boolean agregarVacuna(Vacuna nuevaVacuna){
         
         try {
             Conexion con = new Conexion();
@@ -30,9 +30,9 @@ public class ConsultasVacunas {
             
             String query = "INSERT INTO vacuna(nombreVacuna,empresaVacuna,tiempoEspera) VALUES(?,?,?)";
             PreparedStatement stmt = cnx.prepareStatement(query);
-            stmt.setString(1, "Sinovac");
-            stmt.setString(2, "Sinovac Biotech");
-            stmt.setString(3, "15");
+            stmt.setString(1, nuevaVacuna.getNombreVacuna());
+            stmt.setString(2, nuevaVacuna.getEmpresaVacuna());
+            stmt.setInt(3, nuevaVacuna.getTiempoEspera());
             
 //          Se ejecuta consulta
             stmt.executeUpdate(); 

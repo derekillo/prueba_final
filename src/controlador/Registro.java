@@ -3,6 +3,8 @@ package controlador;
 
 import DataBase.*;
 import java.util.List;
+import modelo.Persona;
+import modelo.PersonaVacuna;
 import modelo.Vacuna;
 
 /**
@@ -25,5 +27,30 @@ public class Registro {
     public List<Vacuna> listaVacunacion(){
         ConsultasVacunas consultasVacunas = new ConsultasVacunas();
         return consultasVacunas.buscarListaVacuna();
+    }
+    
+    public boolean agregarVacuna(Vacuna vacuna){
+        ConsultasVacunas consultasVacunas = new ConsultasVacunas();
+        return consultasVacunas.agregarVacuna(vacuna);
+    }
+    
+    public List<PersonaVacuna> buscarInformacionVacunaPersona(int idPersona){
+        ConsultasPersona consultasPersona = new ConsultasPersona();
+        return consultasPersona.buscarInformacionVacunaPersona(idPersona);
+    }
+    
+    public Persona buscarInformacionPersona(String rutPersona){
+        ConsultasPersona consultasPersona = new ConsultasPersona();
+        return consultasPersona.buscarInformacionPersona(rutPersona);
+    }
+    
+    public boolean agregarPersona(Persona persona){
+        ConsultasPersona consultasPersona = new ConsultasPersona();
+        return consultasPersona.agregarPersona(persona);
+    }
+    
+    public List<Persona> listaPersonas(){
+        ConsultasPersona consultasPersona = new ConsultasPersona();
+        return consultasPersona.listaPersonas();
     }
 }
