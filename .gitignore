@@ -1,1 +1,7 @@
 /build/
+*.form
+*.form
+*.properties
+*.form
+*.form
+src/Vista/ListaVacunaVista.form
