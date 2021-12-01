@@ -249,7 +249,11 @@ public class AgregarPersonaVista extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVolverAlInicioActionPerformed
 
     private void btnLimpiarPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarPersonaActionPerformed
-        // TODO add your handling code here:
+        txtPrimerNombre.setText("");
+        txtSegundoNombre.setText("");
+        txtPrimerApellido.setText("");
+        txtSegundoApellido.setText("");
+        txtRutPersona.setText("");
     }//GEN-LAST:event_btnLimpiarPersonaActionPerformed
 
     private void btnGuardarPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarPersonaActionPerformed
@@ -261,11 +265,17 @@ public class AgregarPersonaVista extends javax.swing.JFrame {
             persona.setNombres(txtPrimerNombre.getText()+" "+txtSegundoNombre.getText());
             persona.setApellidos(txtPrimerApellido.getText()+" "+txtSegundoApellido.getText());
             persona.setRutPersona(txtRutPersona.getText());
-            registro.agregarPersona(persona);
-            limpiarFormulario();
-            JOptionPane.showMessageDialog(this, "Persona registrada exitosamente");
+            int respuesta = registro.agregarPersona(persona);
+            switch(respuesta){
+                case 1: JOptionPane.showMessageDialog(this, "Persona registrada exitosamente");
+                        limpiarFormulario();
+                        break;
+                case 2: JOptionPane.showMessageDialog(this, "RUT No Valido");
+                        break;
+                case 0: JOptionPane.showMessageDialog(this, "Persona ya existente");
+                        break;
+            }
         }
-        
     }//GEN-LAST:event_btnGuardarPersonaActionPerformed
 
     /**

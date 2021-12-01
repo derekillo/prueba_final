@@ -244,6 +244,11 @@ public class InformacionPersonaVista extends javax.swing.JFrame {
        DefaultTableModel tblModel2 = (DefaultTableModel)jTable2.getModel();
        tblModel2.setRowCount(0);
        Registro registro = new Registro();
+       ////agregar validacion de rut
+       //crear funcion que valide rut, retornará True o False txtRutPersona.getText()
+     
+            
+        
        Persona persona = registro.buscarInformacionPersona(txtRutPersona.getText());
        txtNombrePersonaInfo.setText(persona.getNombres() +" "+ persona.getApellidos());
        txtRutPersonaInfo.setText(persona.getRutPersona());
