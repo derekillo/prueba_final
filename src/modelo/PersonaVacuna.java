@@ -9,7 +9,7 @@ import java.util.Date;
 
 /**
  *
- * @author Nelly
+ * @author Nelly Becerra - Derek Needham
  */
 public class PersonaVacuna {
     public int idPersonaVacuna;

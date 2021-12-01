@@ -9,7 +9,7 @@ import modelo.Vacuna;
 
 /**
  *
- * @author Derek Needham <deneedham@duocuc.cl>
+ * @author Nelly Becerra - Derek Needham
  * @version 23-11-2021
  */
 public class Registro {

@@ -7,7 +7,7 @@ package modelo;
 
 /**
  *
- * @author Jorge
+ * @author Nelly Becerra - Derek Needham
  */
 public class Vacuna {
     public int idVacuna;

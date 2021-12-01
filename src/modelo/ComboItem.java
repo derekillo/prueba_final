@@ -7,7 +7,7 @@ package modelo;
 
 /**
  *
- * @author Jorge
+ * @author Nelly Becerra - Derek Needham
  */
 public class ComboItem {
     private int id;
